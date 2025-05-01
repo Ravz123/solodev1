@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloDev Solutions | AI-Powered Software Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        primaryDark: '#4f46e5',
+                        accent: '#06b6d4',
+                        accentDark: '#0891b2',
+                        dark: '#0f172a',
+                        darker: '#020617'
+                    },
+                    fontFamily: {
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'floatReverse 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        floatReverse: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+        .dark html {
+            background-color: #020617;
+        }
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(90deg, #6366f1, #06b6d4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+        }
+        .dark .service-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(6, 182, 212, 0.25);
+        }
+        .tech-icon {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .tech-icon:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        .portfolio-item {
+            perspective: 1000px;
+        }
+        .portfolio-card {
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .portfolio-item:hover .portfolio-card {
+            transform: rotateY(180deg);
+        }
+        .portfolio-front, .portfolio-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+        }
+        .portfolio-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        .dark .pulse-dot {
+            animation: pulseDark 2s infinite;
+        }
+        @keyframes pulseDark {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+        }
+        .grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .dark .grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="font-body bg-slate-50 text-slate-800 dark:bg-darker dark:text-slate-200 transition-colors duration-300 overflow-x-hidden">
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 overflow-hidden -z-10">
+        <div class="absolute top-0 left-0 w-full h-full grid-pattern"></div>
+        <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-primary/10 blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 right-20 w-64 h-64 rounded-full bg-accent/10 blur-3xl animate-float-reverse"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 dark:bg-dark/80 backdrop-blur-lg z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <span class="text-primary dark:text-accent text-2xl font-heading font-bold">SoloDev</span>
+                        <span class="ml-2 text-xs bg-primary text-white px-2 py-1 rounded-full flex items-center">
+                            <span class="mr-1">🇱🇰</span> Sri Lanka
+                        </span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-sm font-medium hover:text-primary dark:hover:text-accent transition relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#services" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition relative group">
+                        Services
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#portfolio" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition relative group">
+                        Work
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition relative group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary dark:bg-accent transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <button id="theme-toggle" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline"></i>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white dark:bg-dark z-40 pt-20 backdrop-blur-lg">
+        <div class="flex flex-col items-center space-y-6 py-8 px-4">
+            <a href="#home" class="text-lg font-medium text-primary dark:text-accent">Home</a>
+            <a href="#services" class="text-lg text-slate-600 dark:text-slate-300">Services</a>
+            <a href="#portfolio" class="text-lg text-slate-600 dark:text-slate-300">Work</a>
+            <a href="#about" class="text-lg text-slate-600 dark:text-slate-300">About</a>
+            <a href="#contact" class="text-lg text-slate-600 dark:text-slate-300">Contact</a>
+            <button id="theme-toggle-mobile" class="mt-4 p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <i class="fas fa-moon dark:hidden"></i>
+                <i class="fas fa-sun hidden dark:inline"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen pt-32 pb-24 flex items-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/5 to-transparent -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-6">
+                        <span class="w-2 h-2 rounded-full bg-primary dark:bg-accent mr-2 pulse-dot"></span>
+                        AI-Powered Development
+                    </div>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight mb-6">
+                        Building <span class="gradient-text">Future-Ready</span> Digital Solutions
+                    </h1>
+                    <p class="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-lg mx-auto lg:mx-0">
+                        We craft intelligent software that transforms businesses. From AI-driven applications to cross-platform solutions, we bring your vision to life.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
+                        <a href="#contact" class="relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                            <span class="relative z-10 block bg-primary text-white font-medium py-4 px-8 rounded-lg transition-all duration-300 group-hover:bg-transparent">
+                                Start Your Project
+                            </span>
+                        </a>
+                        <a href="#portfolio" class="relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                            <span class="relative z-10 block bg-white dark:bg-slate-800 text-primary dark:text-accent font-medium py-4 px-8 rounded-lg border border-primary/30 dark:border-accent/30 transition-all duration-300 group-hover:text-white dark:group-hover:text-white group-hover:border-transparent">
+                                View Our Work
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mt-12 flex flex-wrap justify-center lg:justify-start gap-6">
+                        <div class="flex items-center">
+                            <div class="flex -space-x-2">
+                                <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team member">
+                                <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member">
+                                <img class="w-10 h-10 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Team member">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs text-slate-500 dark:text-slate-400">TRUSTED BY</p>
+                                <p class="text-sm font-medium text-primary dark:text-accent">50+ Clients Worldwide</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 flex items-center justify-center text-primary dark:text-accent">
+                                <i class="fas fa-award text-xl"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs text-slate-500 dark:text-slate-400">EXPERIENCE</p>
+                                <p class="text-sm font-medium text-primary dark:text-accent">10+ Years Combined</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="relative w-full max-w-xl mx-auto">
+                        <div class="absolute -top-8 -left-8 w-64 h-64 rounded-2xl bg-primary/20 blur-xl -z-10 animate-float"></div>
+                        <div class="absolute -bottom-8 -right-8 w-64 h-64 rounded-2xl bg-accent/20 blur-xl -z-10 animate-float-reverse"></div>
+                        <div class="glass-card rounded-2xl overflow-hidden border border-white/20 dark:border-slate-700/50 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80" 
+                                 alt="AI and software development" 
+                                 class="w-full h-auto">
+                            <div class="p-6">
+                                <h3 class="font-heading font-bold text-xl text-slate-800 dark:text-white mb-2">AI-Powered Solutions</h3>
+                                <p class="text-slate-600 dark:text-slate-300">We integrate cutting-edge artificial intelligence into every project for smarter, more efficient results.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-primary/5 to-transparent -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                    WHAT WE OFFER
+                </span>
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                    Our <span class="gradient-text">Specialized</span> Services
+                </h2>
+                <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                    We deliver comprehensive digital solutions tailored to your unique business requirements
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-screen text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">Mobile App Development</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        High-performance native and cross-platform apps for iOS and Android with seamless user experiences.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Native iOS & Android</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Flutter & React Native</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>App Store Optimization</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">AI Solutions</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        Leverage artificial intelligence to automate processes, gain insights, and enhance decision-making.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Machine Learning Models</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Natural Language Processing</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Computer Vision</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-laptop-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">Web & Desktop Software</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        Scalable web applications and powerful desktop software built with modern technologies.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>React, Angular, Vue.js</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Node.js, Django, Laravel</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Electron, .NET</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">LMS Solutions</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        Custom learning management systems with interactive features for education and corporate training.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Custom LMS Development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Moodle Customization</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>SCORM Compliance</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-sync-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">Cross-Platform Apps</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        Single codebase solutions that run seamlessly across multiple platforms and devices.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Flutter Development</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>React Native Apps</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Progressive Web Apps</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="service-card glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="w-14 h-14 rounded-xl bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-3">Automation & Chatbots</h3>
+                    <p class="text-slate-600 dark:text-slate-300 mb-4">
+                        Intelligent automation solutions and conversational AI to streamline your operations.
+                    </p>
+                    <ul class="space-y-2 text-slate-600 dark:text-slate-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>AI Chatbots</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>Process Automation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-primary dark:text-accent mt-1 mr-2 text-sm"></i>
+                            <span>RPA Solutions</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-slate-100 dark:bg-slate-900/50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                    OUR WORK
+                </span>
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                    Featured <span class="gradient-text">Projects</span>
+                </h2>
+                <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                    Explore our recent work and see how we've transformed ideas into successful digital products
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="portfolio-item">
+                    <div class="portfolio-card relative h-80 rounded-xl">
+                        <div class="portfolio-front glass-card h-full rounded-xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80" 
+                                 alt="AI Learning Platform" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-xl font-heading font-bold text-white">AI-Powered LMS</h3>
+                                <p class="text-slate-200">Education Technology</p>
+                            </div>
+                        </div>
+                        <div class="portfolio-back">
+                            <h3 class="text-xl font-heading font-bold text-white mb-3">AI-Powered LMS</h3>
+                            <p class="text-slate-200 mb-4">Custom learning platform with personalized recommendations using machine learning.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">Flutter</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">TensorFlow</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">Node.js</span>
+                            </div>
+                            <a href="#" class="text-white font-medium hover:underline inline-flex items-center">
+                                View Case Study <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-card relative h-80 rounded-xl">
+                        <div class="portfolio-front glass-card h-full rounded-xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50">
+                            <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80" 
+                                 alt="Healthcare App" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-xl font-heading font-bold text-white">HealthTrack Pro</h3>
+                                <p class="text-slate-200">Healthcare Mobile App</p>
+                            </div>
+                        </div>
+                        <div class="portfolio-back">
+                            <h3 class="text-xl font-heading font-bold text-white mb-3">HealthTrack Pro</h3>
+                            <p class="text-slate-200 mb-4">Cross-platform health monitoring app with AI-powered diagnostics.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">React Native</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">Python</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">Firebase</span>
+                            </div>
+                            <a href="#" class="text-white font-medium hover:underline inline-flex items-center">
+                                View Case Study <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-card relative h-80 rounded-xl">
+                        <div class="portfolio-front glass-card h-full rounded-xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50">
+                            <img src="https://images.unsplash.com/photo-1622473590773-f588134b6ce7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80" 
+                                 alt="E-commerce Platform" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-xl font-heading font-bold text-white">ShopSmart AI</h3>
+                                <p class="text-slate-200">E-commerce Platform</p>
+                            </div>
+                        </div>
+                        <div class="portfolio-back">
+                            <h3 class="text-xl font-heading font-bold text-white mb-3">ShopSmart AI</h3>
+                            <p class="text-slate-200 mb-4">Intelligent e-commerce platform with personalized recommendations.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">React</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">Node.js</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">MongoDB</span>
+                                <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs">TensorFlow</span>
+                            </div>
+                            <a href="#" class="text-white font-medium hover:underline inline-flex items-center">
+                                View Case Study <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#" class="inline-flex items-center px-6 py-3 border border-primary dark:border-accent rounded-lg text-primary dark:text-accent font-medium hover:bg-primary/10 dark:hover:bg-accent/10 transition">
+                    View All Projects <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                    OUR TECH STACK
+                </span>
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                    Technologies <span class="gradient-text">We Master</span>
+                </h2>
+                <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                    We work with cutting-edge technologies to deliver robust, scalable, and future-proof solutions
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Flutter</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">React</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Python</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">TensorFlow</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Node.js</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Firebase</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Django</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Swift</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Kotlin</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Docker</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">Azure</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 flex items-center justify-center mb-4">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="tech-icon w-full h-full">
+                    </div>
+                    <span class="text-sm font-medium text-slate-600 dark:text-slate-300">MongoDB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-slate-100 dark:bg-slate-900/50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="relative w-full max-w-lg mx-auto">
+                        <div class="absolute -top-8 -left-8 w-64 h-64 rounded-2xl bg-primary/20 blur-xl -z-10 animate-float"></div>
+                        <div class="absolute -bottom-8 -right-8 w-64 h-64 rounded-2xl bg-accent/20 blur-xl -z-10 animate-float-reverse"></div>
+                        <div class="glass-card rounded-2xl overflow-hidden border border-white/20 dark:border-slate-700/50 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80" 
+                                 alt="SoloDev Solutions Team" 
+                                 class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                        ABOUT US
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                        Sri Lankan <span class="gradient-text">Tech Innovators</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-6">
+                        At <span class="font-medium text-primary dark:text-accent">SoloDev Solutions</span>, we combine technical expertise with creative problem-solving to deliver software that drives business growth. Based in Sri Lanka 🇱🇰, our team brings a unique perspective to global tech challenges.
+                    </p>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-8">
+                        We specialize in AI-powered applications that give our clients a competitive edge. Our approach blends cutting-edge technology with user-centric design to create solutions that are both powerful and intuitive.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-heading font-bold text-slate-800 dark:text-white mb-1">Innovation First</h3>
+                                <p class="text-slate-600 dark:text-slate-300">We constantly explore emerging technologies to deliver cutting-edge solutions.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-heading font-bold text-slate-800 dark:text-white mb-1">Client-Centric</h3>
+                                <p class="text-slate-600 dark:text-slate-300">Your success is our priority. We tailor solutions to your specific needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                            <span class="relative z-10 block bg-primary text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 group-hover:bg-transparent">
+                                Get In Touch
+                            </span>
+                        </a>
+                        <a href="#services" class="relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                            <span class="relative z-10 block bg-white dark:bg-slate-800 text-primary dark:text-accent font-medium py-3 px-6 rounded-lg border border-primary/30 dark:border-accent/30 transition-all duration-300 group-hover:text-white dark:group-hover:text-white group-hover:border-transparent">
+                                Our Services
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                    CLIENT TESTIMONIALS
+                </span>
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                    What Our <span class="gradient-text">Clients Say</span>
+                </h2>
+                <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                    Don't just take our word for it - hear from businesses we've helped transform
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img class="w-12 h-12 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Client">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-heading font-bold text-slate-800 dark:text-white">Sarah Johnson</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">CEO, EduTech Solutions</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 mb-6">
+                        "The AI-powered LMS platform SoloDev built for us has transformed our business. Their technical expertise and attention to detail were exceptional throughout the project."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img class="w-12 h-12 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Client">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-heading font-bold text-slate-800 dark:text-white">Michael Chen</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">CTO, HealthTrack Inc.</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 mb-6">
+                        "Working with SoloDev was a game-changer for our mobile health app. They delivered a cross-platform solution that exceeded our expectations in both performance and design."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img class="w-12 h-12 rounded-full border-2 border-white dark:border-dark" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-heading font-bold text-slate-800 dark:text-white">Aisha Rahman</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Director, RetailTech</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 mb-6">
+                        "The e-commerce platform with AI recommendations that SoloDev developed increased our conversion rates by 35%. Their team was professional, responsive, and innovative."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-slate-100 dark:bg-slate-900/50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <span class="inline-block px-4 py-2 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent text-sm font-medium mb-4">
+                        GET IN TOUCH
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-800 dark:text-white mb-6">
+                        Let's Build <span class="gradient-text">Something Great</span>
+                    </h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 mb-8">
+                        Ready to transform your ideas into reality? Contact us today to discuss your project and how we can help bring your vision to life with our AI-powered development solutions.
+                    </p>
+                    
+                    <div class="space-y-6 mb-12">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-heading font-bold text-slate-800 dark:text-white mb-1">Email Us</h3>
+                                <a href="mailto:hello@solodev.com" class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition">hello@solodev.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-heading font-bold text-slate-800 dark:text-white mb-1">Our Location</h3>
+                                <p class="text-slate-600 dark:text-slate-300">Colombo, Sri Lanka 🇱🇰</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-accent/10 text-primary dark:text-accent flex items-center justify-center">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-heading font-bold text-slate-800 dark:text-white mb-1">Call Us</h3>
+                                <a href="tel:+94112345678" class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-accent transition">+94 112 345 678</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 border border-slate-200/50 dark:border-slate-800/50">
+                    <h3 class="text-2xl font-heading font-bold text-slate-800 dark:text-white mb-6">Send Us a Message</h3>
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-accent/50 transition">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-accent/50 transition">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="subject" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Subject</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-accent/50 transition">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Your Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-accent/50 transition"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-primaryDark dark:bg-accent dark:hover:bg-accentDark text-white font-medium py-3 px-6 rounded-lg transition duration-300">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-slate-300 py-16 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-accent/5 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div>
+                    <a href="#" class="flex items-center mb-6">
+                        <span class="text-primary dark:text-accent text-2xl font-heading font-bold">SoloDev</span>
+                    </a>
+                    <p class="text-slate-400 mb-6">
+                        AI-powered software development solutions that drive business growth and innovation.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-slate-300 hover:text-primary dark:hover:text-accent flex items-center justify-center transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-heading font-bold text-white mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Mobile App Development</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">AI Solutions</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Web Development</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">LMS Development</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Automation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-heading font-bold text-white mb-6">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">About Us</a></li>
+                        <li><a href="#portfolio" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Our Work</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Careers</a></li>
+                        <li><a href="#" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Blog</a></li>
+                        <li><a href="#contact" class="text-slate-400 hover:text-primary dark:hover:text-accent transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-heading font-bold text-white mb-6">Newsletter</h3>
+                    <p class="text-slate-400 mb-4">
+                        Subscribe to our newsletter for the latest updates and insights.
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-3 rounded-l-lg bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 w-full">
+                        <button type="submit" class="bg-primary hover:bg-primaryDark text-white px-4 rounded-r-lg transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-500 text-sm mb-4 md:mb-0">
+                    © 2023 SoloDev Solutions. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-500 hover:text-primary dark:hover:text-accent text-sm transition">Privacy Policy</a>
+                    <a href="#" class="text-slate-500 hover:text-primary dark:hover:text-accent text-sm transition">Terms of Service</a>
+                    <a href="#" class="text-slate-500 hover:text-primary dark:hover:text-accent text-sm transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#home" id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-primary dark:bg-accent text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primaryDark dark:hover:bg-accentDark transition duration-300 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        function toggleTheme() {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate elements on scroll
+        gsap.utils.toArray('.service-card, .portfolio-item, .tech-icon').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+        
+        // Hero section animation
+        gsap.from('#home h1, #home p, #home .flex', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+        
+        // Section heading animations
+        gsap.utils.toArray('section').forEach(section => {
+            const heading = section.querySelector('h2');
+            const subtitle = section.querySelector('span:first-of-type');
+            const description = section.querySelector('p:first-of-type');
+            
+            if (heading) {
+                gsap.from([subtitle, heading, description], {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power2.out"
+                });
+            }
+        });
+        
+        // Contact form animation
+        gsap.from('#contact form', {
+            scrollTrigger: {
+                trigger: '#contact',
+                start: "top 80%",
+                toggleActions: "play none none none"
+            },
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+    </script>
+</body>
+</html>
